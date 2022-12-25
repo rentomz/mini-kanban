@@ -65,7 +65,7 @@ function App() {
       <div className="board flex flex-wrap gap-5 my-5 mx-5 lg:flex-nowrap">
         {todos.map((board, index) => {
           return (
-            <div className="board-col w-1/1  lg:w-1/4 " key={index}>
+            <div className="board-col w-1/1  lg:w-1/4 basis-full " key={index}>
               <div className="text-xs font-normal group-task">{board.title}</div>
               <h2
                 className="text-xl font-bold mt-3"

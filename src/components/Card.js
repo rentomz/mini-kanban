@@ -112,9 +112,9 @@ export default function Card({ parentData, dataTodos, indexTodos }) {
       {items.map((v, index) => {
         var isMiddle = true;
 
-        if(indexTodos == 0){
+        if(indexTodos === 0){
           isMiddle = false;
-        }else if (indexTodos == dataTodos.length-1) {
+        }else if (indexTodos === dataTodos.length-1) {
           isMiddle = false;
         }
         return (
@@ -132,7 +132,7 @@ export default function Card({ parentData, dataTodos, indexTodos }) {
                   ) : (
                     <div
                       className="myprogressBar"
-                      style={{ width: v.progress_percentage }}
+                      style={{ width: v.progress_percentage +'%'} }
                     ></div>
                   )}
                 </div>
@@ -153,11 +153,11 @@ export default function Card({ parentData, dataTodos, indexTodos }) {
                   </button>
                   <div className="popover__content py-4 px-8">
                     <button
-                      className="flex mb-4"
+                      className="flex pb-4"
                       onClick={() => {
                         setIdItem(v.id);
                         
-                        if(dataTodos.length - 1 == indexTodos) {
+                        if(dataTodos.length - 1 === indexTodos) {
                           setTargetId(dataTodos[indexTodos-1].id)
                           // console.log(dataTodos[indexTodos-1])
                         } else {
@@ -166,19 +166,19 @@ export default function Card({ parentData, dataTodos, indexTodos }) {
                         moveItem()
                       }}
                     >
-                      <img src={dataTodos.length - 1 == indexTodos ? icLeft : icRight} alt="Icon Edit" />
+                      <img src={dataTodos.length - 1 === indexTodos ? icLeft : icRight} alt="Icon Edit" />
                       <h1 className="ml-4 font-semibold text-sm">
-                        {dataTodos.length - 1 == indexTodos ? 'Move Left' : 'Move Right'}
+                        {dataTodos.length - 1 === indexTodos ? 'Move Left' : 'Move Right'}
                       </h1>
                     </button>
                     {
                       isMiddle ?  (
                         <button
-                        className="flex mb-4"
+                        className="flex pb-4"
                         onClick={() => {
                           setIdItem(v.id);
                           
-                          if(dataTodos.length - 1 != indexTodos) {
+                          if(dataTodos.length - 1 !== indexTodos) {
                             setTargetId(dataTodos[indexTodos-1].id)
                             // console.log(dataTodos[indexTodos-1])
                           } else {
@@ -187,9 +187,9 @@ export default function Card({ parentData, dataTodos, indexTodos }) {
                           moveItem()
                         }}
                       >
-                        <img src={dataTodos.length - 1 != indexTodos ? icLeft : icRight} alt="Icon Edit" />
+                        <img src={dataTodos.length - 1 !== indexTodos ? icLeft : icRight} alt="Icon Edit" />
                         <h1 className="ml-4 font-semibold text-sm">
-                          {dataTodos.length - 1 != indexTodos ? 'Move Left' : 'Move Right'}
+                          {dataTodos.length - 1 !== indexTodos ? 'Move Left' : 'Move Right'}
                         </h1>
                       </button>
                       ) : (
@@ -197,7 +197,7 @@ export default function Card({ parentData, dataTodos, indexTodos }) {
                       )
                     }
                     <button
-                      className="flex mb-4"
+                      className="flex pb-4"
                       onClick={() => {
                         setPopupButton(true);
                         setIdItem(v.id);
