@@ -2,12 +2,14 @@ import checklist from '../assets/checklist.png';
 import dotHorizontal from '../assets/fi_more-horizontal.png';
 import icEdit from '../assets/ic_edit.png';
 import icDelete from '../assets/ic_delete.png';
+import icRight from '../assets/ic_right.png';
+import icLeft from '../assets/ic_left.png';
 import React, { useEffect, useState } from 'react';
 import Popup from './Popup';
 import axios from 'axios';
 import DialogDelete from './DialogDelete';
 
-export default function Card({ parentData }) {
+export default function Card({ parentData, dataTodos, indexTodos }) {
   const [items, setItems] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -15,6 +17,7 @@ export default function Card({ parentData }) {
   const [popupDelete, setPopupDelete] = useState(false);
 
   //Popup
+  const [targetId, setTargetId] = useState('');
   const [idItem, setIdItem] = useState('');
   const [name, setName] = useState('');
   const [progress, setProgress] = useState('');
@@ -64,6 +67,28 @@ export default function Card({ parentData }) {
       });
   };
 
+  // Move Item
+  const moveItem = async (e) => {
+    //send data to server
+    const data = {
+      target_todo_id: targetId,
+    };
+    await axios({
+      method: 'patch',
+      url: '/todos/' + parentData.id + '/items/' + idItem,
+      data: data,
+    })
+      .then((response) => {
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log('finish');
+      });
+  };
+
   const deleteItem = async (e) => {
     //send data to server
     await axios({
@@ -85,6 +110,13 @@ export default function Card({ parentData }) {
   return (
     <div>
       {items.map((v, index) => {
+        var isMiddle = true;
+
+        if(indexTodos == 0){
+          isMiddle = false;
+        }else if (indexTodos == dataTodos.length-1) {
+          isMiddle = false;
+        }
         return (
           <div
             className="card py-4 px-4 border bg-[#FAFAFA] rounded"
@@ -120,6 +152,50 @@ export default function Card({ parentData }) {
                     <img src={dotHorizontal} alt="More" className="ml-auto" />
                   </button>
                   <div className="popover__content py-4 px-8">
+                    <button
+                      className="flex mb-4"
+                      onClick={() => {
+                        setIdItem(v.id);
+                        
+                        if(dataTodos.length - 1 == indexTodos) {
+                          setTargetId(dataTodos[indexTodos-1].id)
+                          // console.log(dataTodos[indexTodos-1])
+                        } else {
+                          setTargetId(dataTodos[indexTodos+1].id)
+                        }
+                        moveItem()
+                      }}
+                    >
+                      <img src={dataTodos.length - 1 == indexTodos ? icLeft : icRight} alt="Icon Edit" />
+                      <h1 className="ml-4 font-semibold text-sm">
+                        {dataTodos.length - 1 == indexTodos ? 'Move Left' : 'Move Right'}
+                      </h1>
+                    </button>
+                    {
+                      isMiddle ?  (
+                        <button
+                        className="flex mb-4"
+                        onClick={() => {
+                          setIdItem(v.id);
+                          
+                          if(dataTodos.length - 1 != indexTodos) {
+                            setTargetId(dataTodos[indexTodos-1].id)
+                            // console.log(dataTodos[indexTodos-1])
+                          } else {
+                            setTargetId(dataTodos[indexTodos+1].id)
+                          }
+                          moveItem()
+                        }}
+                      >
+                        <img src={dataTodos.length - 1 != indexTodos ? icLeft : icRight} alt="Icon Edit" />
+                        <h1 className="ml-4 font-semibold text-sm">
+                          {dataTodos.length - 1 != indexTodos ? 'Move Left' : 'Move Right'}
+                        </h1>
+                      </button>
+                      ) : (
+                        ""
+                      )
+                    }
                     <button
                       className="flex mb-4"
                       onClick={() => {

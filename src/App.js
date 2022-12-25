@@ -62,7 +62,7 @@ function App() {
     <div className="App">
       <Header />
       {/* Board Column */}
-      <div className="board flex flex-wrap gap-5 my-5 mx-5 lg:overflow-x-auto lg:flex-nowrap">
+      <div className="board flex flex-wrap gap-5 my-5 mx-5 lg:flex-nowrap">
         {todos.map((board, index) => {
           return (
             <div className="board-col w-1/1  lg:w-1/4 " key={index}>
@@ -73,7 +73,7 @@ function App() {
               >
                 {board.description}
               </h2>
-              <Card parentData={board} />
+              <Card parentData={board} dataTodos={todos} indexTodos={index} />
               <button
                 className="flex mt-4 cursor-pointer w-fit"
                 onClick={() => {
