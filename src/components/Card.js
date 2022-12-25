@@ -1,10 +1,27 @@
 import checklist from '../assets/checklist.png';
 import dotHorizontal from '../assets/fi_more-horizontal.png';
+import icEdit from '../assets/ic_edit.png';
+import icDelete from '../assets/ic_delete.png';
 import React, { useEffect, useState } from 'react';
+import Popup from './Popup';
 import axios from 'axios';
+import DialogDelete from './DialogDelete';
 
 export default function Card({ parentData }) {
   const [items, setItems] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [popupButton, setPopupButton] = useState(false);
+  const [popupDelete, setPopupDelete] = useState(false);
+
+  //Popup
+  const [idItem, setIdItem] = useState('');
+  const [name, setName] = useState('');
+  const [progress, setProgress] = useState('');
+
+  const toggleOverlay = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
     axios({
@@ -21,6 +38,50 @@ export default function Card({ parentData }) {
         console.log('finish');
       });
   }, []);
+
+  const storeItem = async (e) => {
+    //send data to server
+    const data = {
+      name: name,
+      progress_percentage: progress,
+      target_todo_id: parentData.id,
+    };
+    await axios({
+      method: 'patch',
+      url: '/todos/' + parentData.id + '/items/' + idItem,
+      data: data,
+    })
+      .then((response) => {
+        console.log(response.data);
+        window.location.reload(false);
+        setPopupButton(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log('finish');
+      });
+  };
+
+  const deleteItem = async (e) => {
+    //send data to server
+    await axios({
+      method: 'delete',
+      url: '/todos/' + parentData.id + '/items/' + idItem,
+    })
+      .then((response) => {
+        window.location.reload(false);
+        setPopupDelete(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log('finish');
+      });
+  };
+
   return (
     <div>
       {items.map((v, index) => {
@@ -54,11 +115,53 @@ export default function Card({ parentData }) {
                 )}
               </div>
               <div className="right basis-2/12">
-                <a href="">
-                  <img src={dotHorizontal} alt="More" className="ml-auto" />
-                </a>
+                <div className="popover__wrapper">
+                  <button onClick={toggleOverlay}>
+                    <img src={dotHorizontal} alt="More" className="ml-auto" />
+                  </button>
+                  <div className="popover__content py-4 px-8">
+                    <button
+                      className="flex mb-4"
+                      onClick={() => {
+                        setPopupButton(true);
+                        setIdItem(v.id);
+                        setName(v.name);
+                        setProgress(v.progress_percentage);
+                      }}
+                    >
+                      <img src={icEdit} alt="Icon Edit" />
+                      <h1 className="ml-4 font-semibold text-sm">Edit</h1>
+                    </button>
+
+                    <button
+                      className="flex"
+                      onClick={() => {
+                        setPopupDelete(true);
+                        setIdItem(v.id);
+                      }}
+                    >
+                      <img src={icDelete} alt="Icon Delete" />
+                      <h1 className="ml-4 font-semibold text-sm">Delete</h1>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
+            <Popup
+              trigger={popupButton}
+              setTrigger={setPopupButton}
+              valName={name}
+              setName={setName}
+              valProgress={progress}
+              setProgress={setProgress}
+              saveData={storeItem}
+            />
+
+            <DialogDelete
+              trigger={popupDelete}
+              setTrigger={setPopupDelete}
+              deleteData={deleteItem}
+            />
           </div>
         );
       })}

@@ -7,36 +7,49 @@
   font-family: 'Nunito Sans', sans-serif;
 }
 
-.board-col{
+.board-col {
   border-radius: 8px;
-  border: 1px solid #01959F;
+  border: 1px solid #01959f;
   padding: 18px 24px;
-  background-color: #F7FEFF;
+  background-color: #f7feff;
   min-height: min-content;
+}
+.board-col:nth-child(2) {
+  border: solid 1px #feeabc;
+  background-color: #fffcf5;
+}
+.board-col:nth-child(3) {
+  border: solid 1px #f5b1b7;
+  background-color: #fffafa;
+}
+.board-col:nth-child(4) {
+  border: solid 1px #b8dbca;
+  background-color: #f8fbf9;
 }
 
 .group-task {
   padding: 4px 8px;
-  border: solid 1px #4DB5BC;
+  border: solid 1px #4db5bc;
   display: flex;
   border-radius: 4px;
   width: fit-content;
-  color: #01959F;
+  color: #01959f;
 }
+
 .card {
   margin-top: 6px;
   margin-bottom: 6px;
 }
 
 .Progress_Status {
-  background-color: #EDEDED;
+  background-color: #ededed;
   border-radius: 9999px;
 }
-  
+
 .myprogressBar {
   width: 20%;
   height: 12px;
-  background-color: #01959F;
+  background-color: #01959f;
   text-align: center;
   line-height: 16px;
   color: black;
@@ -47,7 +60,7 @@
 .myprogressBarSuccess {
   width: 100%;
   height: 12px;
-  background-color: #43936C;
+  background-color: #43936c;
   text-align: center;
   line-height: 16px;
   color: black;
@@ -58,19 +71,20 @@
   position: fixed;
   top: 0;
   left: 0;
-  width:100%;
+  width: 100%;
   height: 100%;
+  z-index: 99;
   background: rgba(0, 0, 0, 0.2);
 }
 
 .modal-main {
-  position:fixed;
+  position: fixed;
   background: white;
   width: 30%;
   height: auto;
-  top:50%;
-  left:50%;
-  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .display-block {
@@ -79,4 +93,29 @@
 
 .display-none {
   display: none;
+}
+
+.popover__wrapper {
+  float: right;
+  position: relative;
+  display: inline-block;
+}
+.popover__content {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  left: 25px;
+  top: 0px;
+  transform: translate(0, 10px);
+  background-color: white;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  width: auto;
+}
+
+.popover__wrapper:hover .popover__content {
+  z-index: 10;
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, -20px);
+  transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
 }

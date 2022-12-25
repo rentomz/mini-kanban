@@ -66,7 +66,7 @@ function App() {
         {todos.map((board, index) => {
           return (
             <div className="board-col w-1/1  lg:w-1/4 " key={index}>
-              <h4 className="text-xs font-normal group-task">{board.title}</h4>
+              <div className="text-xs font-normal group-task">{board.title}</div>
               <h2
                 className="text-xl font-bold mt-3"
                 style={{ color: '#404040' }}
