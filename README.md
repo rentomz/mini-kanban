@@ -1,6 +1,11 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Link Application : https://kanban-rentomz.netlify.app/
+
+## Available Scripts
+
+Node v16.17.0
 
 ## Available Scripts
 
